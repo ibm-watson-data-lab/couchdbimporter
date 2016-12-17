@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>couchimport</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+
+      <div class="cover-container">
+
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand">couchimport</h3>
+            <nav>
+              <ul class="nav masthead-nav">
+                <li><a id="cog" href="#Settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div class="inner cover">
+
+          <!-- config panel -->
+          <div id="configmodal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Config</h4>
+                </div>
+                <div class="modal-body">
+                  <form id="configform">
+                    <div class="form-group">
+                      <label for="couchurl">CouchDB URL</label>
+                      <input type="url" class="form-control" id="couchurl" placeholder="e.g. http://localhost:5984">
+                    </div>
+                    <div class="form-group">
+                      <label for="couchdatabase">Database</label>
+                      <input type="string" class="form-control" id="couchdatabase" placeholder="e.g. mydb">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button id="configcancel" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button id="configsave" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
+          <!-- drag and drop panel -->
+          <div class="jumbotron rounded" id="drag-file">
+            <p>Drag and drop a CSV/TSV file here to upload</p>
+            <span id="uploadicon" class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+          </div>
+
+          <!-- upload status bar -->
+          <div class="jumbotron rounded" id="upload-file">
+            <h2>Importing...</h2>
+            <h3 id="dragfilename"></h3>
+            <span id="writesuccess" class="label label-success writestatus">0</span>
+            <span id="writefail" class="label label-danger writestatus">0</span>
+            <h3 id="writecomplete"></h3>
+            <div id="reset">
+              <a id="resetbutton" class="btn btn-default">Start Over</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mastfoot">
+          <div class="inner">
+            <p>Built with the <a id="couchimportlink" href="#">couchimport</a> npm module</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    window.$ = window.jQuery = require('jquery');
+  </script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/dragndrop.js"></script>
+  <script src="js/config.js"></script>
+</body>
+</html>
