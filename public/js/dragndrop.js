@@ -47,7 +47,8 @@
           var opts = {
             COUCH_URL: config.get('COUCH_URL') || 'http://localhost:5984',
             COUCH_DATABASE: config.get('COUCH_DATABASE') || 'mydb',
-            COUCH_DELIMITER: delimiter
+            COUCH_DELIMITER: delimiter,
+            COUCH_PARALLELISM: config.get('COUCH_PARALLELISM') || 1
           };
           console.log('opts', opts);
           couchimport.importFile(path, opts, function(err,data) {

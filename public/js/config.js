@@ -10,16 +10,22 @@
     config.set('COUCH_DATABASE', 'mydb');
   }
 
+  if (!config.get('COUCH_PARALLELISM')) {
+    config.set('COUCH_PARALLELISM', 'mydb');
+  }
+
   $( "#cog" ).click(function() {
     console.log('click on cog');
     $('#couchurl').val(config.get('COUCH_URL'));
     $('#couchdatabase').val(config.get('COUCH_DATABASE'));
+    $('#parallelism').val(config.get('COUCH_PARALLELISM'))
     $('#configmodal').modal('show');
   });
 
   $('#configsave').click(function() {
     config.set('COUCH_URL', $('#couchurl').val());
     config.set('COUCH_DATABASE', $('#couchdatabase').val());
+    config.set('COUCH_PARALLELISM', $('#parallelism').val());
     $('#configmodal').modal('hide');
   });
 

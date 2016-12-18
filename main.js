@@ -20,8 +20,7 @@ function createWindow () {
     pathname: path.join(__dirname, 'public', 'index.html'),
     protocol: 'file:',
     slashes: true
-  }))
- // mainWindow.loadURL('https://danmermel.github.io/landreg.com/bydeed.html?0x6d92cb549f8b5c651caeb7831982414ca129e88e');
+  }));
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
