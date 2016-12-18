@@ -1,3 +1,67 @@
+var infer = function(data) {
+  var fields = [ ];
+  for(var i in data[0]) {
+    var obj = {
+      name: i,
+      type: "string"
+    };
+
+    var v = data[0][i];
+    var vl = v.toLowerCase();
+    if(vl === "true" || vl === "false") {
+      obj.type = "boolean";
+    } else if (v.match(/^[0-9\.]+$/)) {
+      obj.type = "number";
+    }
+    fields.push(obj);
+  }
+  return fields
+};
+
+var findfield = function(f, flist) {
+  for(var i in flist) {
+    if (flist[i].name === f) {
+      return flist[i];
+    }
+  }
+  return null;
+};
+
+var transform = function(doc, fields) {
+  for(var i in doc) {
+    var v = doc[i];
+    var f = findfield(i, fields);
+    if (f) {
+      switch (f.type) {
+        
+      case "number":
+        if( v.match(/\./)) {
+          var f = parseFloat(v);
+          doc[i] = isNaN(f) ? v : f;
+        } else {
+          var f = parseInt(v);
+          doc[i] = isNaN(f) ? v : f;
+        }
+        break;
+        
+      case "boolean": 
+        doc[i] = (v.toLowerCase()==="true")?true:false;
+        break;       
+      
+      default:
+        // do nothing
+        break;
+      }
+    }
+    
+    // support MSSQL \N to mean null - just the string not a real null
+    if (typeof doc[i] === "string" &&  doc[i] === "\\N") {
+      doc[i] = "null";
+    }
+  }
+  return doc;
+};
+
 (function () {
   const Config = require('electron-config');
   const config = new Config();
@@ -5,7 +69,6 @@
   var holder = document.getElementById('drag-file');
 
   holder.ondragover = () => {
-    console.log('drag over');
     $('#drag-file').addClass('dragover');
     $('#uploadicon').addClass('greenicon');
     return false;
@@ -28,7 +91,6 @@
     $('#uploadicon').removeClass('greenicon');
       e.preventDefault();
       var couchimport = require('couchimport');
-      console.log(e.dataTransfer.files);
       var path = null;
       for (let f of e.dataTransfer.files) {
           console.log('File(s) you dragged here: ', f.path)
@@ -43,14 +105,17 @@
         $('#dragfilename').html(path);
         $('#writesuccess').html('0');
         $('#writefail').html('0');
+        
         couchimport.previewCSVFile(path,{}, function(err, data, delimiter) {
+          var fields = infer(data);
           var opts = {
             COUCH_URL: config.get('COUCH_URL') || 'http://localhost:5984',
             COUCH_DATABASE: config.get('COUCH_DATABASE') || 'mydb',
             COUCH_DELIMITER: delimiter,
-            COUCH_PARALLELISM: config.get('COUCH_PARALLELISM') || 1
+            COUCH_PARALLELISM: config.get('COUCH_PARALLELISM') || 1,
+            COUCH_META: fields,
+            COUCH_TRANSFORM: transform
           };
-          console.log('opts', opts);
           couchimport.importFile(path, opts, function(err,data) {
             console.log('Complete', err, data);
             $('#writecomplete').html("Import Complete!");
