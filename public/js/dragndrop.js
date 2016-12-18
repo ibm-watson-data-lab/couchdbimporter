@@ -145,6 +145,10 @@ var transform = function(doc, fields) {
   $('#couchimportlink').click(function() {
     const {shell} = require('electron')
     shell.openExternal('https://www.npmjs.com/package/couchimport');
-  })
+  });
+
+  $('#alertclose').click(function() {
+    $('#alert').hide();
+  });
   
 })();
