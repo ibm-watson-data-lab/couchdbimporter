@@ -1,0 +1,24 @@
+{
+  "name": "couchdbimporter",
+  "version": "1.0.0",
+  "description": "A CouchDB CSV importer application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging"
+  },
+  "repository": "https://github.com/glynnbird/couchdbimporter",
+  "keywords": [
+    "CouchDB",
+    "import",
+    "electron"
+  ],
+  "author": "Glynn Bird <glynn.bird@gmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cf-deployment-tracker-client-electron": "^0.1.2",
+    "couchimport": "^0.5.1",
+    "electron-config": "^0.2.1",
+    "jquery": "^3.1.1"
+  }
+}
