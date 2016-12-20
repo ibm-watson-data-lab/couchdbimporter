@@ -4,7 +4,8 @@
   "description": "A CouchDB CSV importer applications",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "electron . --enable-logging"
   },
   "repository": "https://github.com/glynnbird/couchdbimporter",
   "keywords": [
@@ -15,12 +16,15 @@
   "author": "Glynn Bird <glynn.bird@gmail.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "electron": "^1.4.1"
+    "electron": "^1.4.1",
+    "electron-builder": "^10.9.2",
+    "electron-packager": "^8.4.0"
   },
   "dependencies": {
-    "couchimport": "^0.5.1",
-    "electron-config": "^0.2.1",
     "cf-deployment-tracker-client-electron": "^0.1.2",
+    "couchimport": "^0.5.1",
+    "electron-builder": "^10.9.2",
+    "electron-config": "^0.2.1",
     "jquery": "^3.1.1"
   }
 }
