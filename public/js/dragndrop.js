@@ -61,11 +61,45 @@ var transform = function(doc, fields) {
   }
   return doc;
 };
+const Config = require('electron-config');
+var couchimport = require('couchimport');
+const config = new Config();
+
+var uploadCSVFile = function(p) {
+ 
+  $('#drag-file').removeClass('dragover');
+  $('#uploadicon').removeClass('greenicon');
+  $('#writecomplete').html('');
+  $('#drag-file').hide();
+  $('#upload-file').show();
+  $('#dragfilename').html(p);
+  $('#writesuccess').html('0');
+  $('#writefail').html('0');
+  
+  couchimport.previewCSVFile(p,{}, function(err, data, delimiter) {
+    var fields = infer(data);
+    var opts = {
+      COUCH_URL: config.get('COUCH_URL') || 'http://localhost:5984',
+      COUCH_DATABASE: config.get('COUCH_DATABASE') || 'mydb',
+      COUCH_DELIMITER: delimiter,
+      COUCH_PARALLELISM: config.get('COUCH_PARALLELISM') || 1,
+      COUCH_META: fields,
+      COUCH_TRANSFORM: transform
+    };
+    couchimport.importFile(p, opts, function(err,data) {
+      console.log('Complete', err, data);
+      $('#writecomplete').html("Import Complete!");
+      $('#reset').show();
+    }).on('written', function(data) {
+      $('#writesuccess').html(data.total);
+      $('#writefail').html(data.totalfailed);
+      console.log(data);
+    });
+    console.log("done", err, data, "DELIM",delimiter);
+  });
+};
 
 (function () {
-  const Config = require('electron-config');
-  const config = new Config();
-
   var holder = document.getElementById('drag-file');
 
   holder.ondragover = () => {
@@ -87,52 +121,20 @@ var transform = function(doc, fields) {
   };
 
   holder.ondrop = (e) => {
-    $('#drag-file').removeClass('dragover');
-    $('#uploadicon').removeClass('greenicon');
-      e.preventDefault();
-      var couchimport = require('couchimport');
-      var path = null;
-      for (let f of e.dataTransfer.files) {
-          console.log('File(s) you dragged here: ', f.path)
-          console.log(f.path);
-          path = f.path;
-          break;
-      }
-      if (path) {
-        $('#writecomplete').html('');
-        $('#drag-file').hide();
-        $('#upload-file').show();
-        $('#dragfilename').html(path);
-        $('#writesuccess').html('0');
-        $('#writefail').html('0');
-        
-        couchimport.previewCSVFile(path,{}, function(err, data, delimiter) {
-          var fields = infer(data);
-          var opts = {
-            COUCH_URL: config.get('COUCH_URL') || 'http://localhost:5984',
-            COUCH_DATABASE: config.get('COUCH_DATABASE') || 'mydb',
-            COUCH_DELIMITER: delimiter,
-            COUCH_PARALLELISM: config.get('COUCH_PARALLELISM') || 1,
-            COUCH_META: fields,
-            COUCH_TRANSFORM: transform
-          };
-          couchimport.importFile(path, opts, function(err,data) {
-            console.log('Complete', err, data);
-            $('#writecomplete').html("Import Complete!");
-            $('#reset').show();
-          }).on('written', function(data) {
-            $('#writesuccess').html(data.total);
-            $('#writefail').html(data.totalfailed);
-            console.log(data);
-          });
-
-
-          console.log("done", err, data, "DELIM",delimiter);
-        });
-      }
-
-      
-      return false;
+    console.log('on drop');
+    e.preventDefault();
+    var p = null;
+    for (let f of e.dataTransfer.files) {
+      console.log('File(s) you dragged here: ', f.path)
+      console.log(f.path);
+      p = f.path;
+      break;
+    }
+    console.log('path', p);
+    if (p) {
+      uploadCSVFile(p);
+    }  
+    return false;
   };
 
   $('#reset').click(function() {
@@ -149,6 +151,20 @@ var transform = function(doc, fields) {
 
   $('#alertclose').click(function() {
     $('#alert').hide();
+  });
+
+  $('#uploadbutton').click(function() {
+    var app = require('electron').remote; 
+    var dialog = app.dialog;
+    dialog.showOpenDialog(function (fileNames) {
+      // fileNames is an array that contains all the selected
+      if (fileNames === undefined){
+        console.log("No file selected");
+      } else {
+        uploadCSVFile(fileNames[0]);
+        console.log(fileNames);
+      }
+    });
   });
   
 })();

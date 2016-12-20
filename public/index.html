@@ -76,7 +76,9 @@
           <!-- drag and drop panel -->
           <div class="jumbotron rounded" id="drag-file">
             <p>Drag and drop a CSV/TSV file here to upload</p>
-            <span id="uploadicon" class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+            <button id="uploadbutton" class="btn btn-default" aria-label="Upload file">
+              <span id="uploadicon" class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+            </button>
           </div>
 
           <!-- upload status bar -->
@@ -86,9 +88,9 @@
             <span id="writesuccess" class="label label-success writestatus">0</span>
             <span id="writefail" class="label label-danger writestatus">0</span>
             <h3 id="writecomplete"></h3>
-            <div id="reset">
-              <a id="resetbutton" class="btn btn-default">Start Over</a>
-            </div>
+            <button id="reset" class="btn btn-default" aria-label="Start Over">
+              Start Over
+            </button>
           </div>
         </div>
 
