@@ -1,7 +1,7 @@
 {
   "name": "couchdbimporter",
   "description": "CouchDB import utility Electron app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "productName": "CouchDB Importer",
   "author": "Glynn Bird <glynn.bird@gmail.com>",
   "license": "Apache-2.0",
@@ -9,7 +9,6 @@
     "start": "node_modules/.bin/electron app/main.js",
     "mac": "build --mac",
     "linux": "build --linux",
-    "all": "build -mwl",
     "win": "build --win",
     "clean": "rm -rf dist"
   },
