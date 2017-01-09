@@ -4,8 +4,8 @@
   "description": "A CouchDB CSV importer application",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron . --enable-logging"
+    "start": "../node_modules/.bin/electron .",
+    "dev": "../node_modules/.bin/electron . --enable-logging"
   },
   "repository": "https://github.com/glynnbird/couchdbimporter",
   "keywords": [
