@@ -10,9 +10,9 @@
     "mac": "build --mac",
     "linux": "build --linux",
     "win": "build --win",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "postinstall": "install-app-deps"
   },
-  "postinstall": "install-app-deps",
   "build": {
     "productName": "CouchDB Importer",
     "appId": "com.glynnbird.couchimport",
