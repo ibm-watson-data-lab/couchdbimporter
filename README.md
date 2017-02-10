@@ -7,7 +7,7 @@ package and distributed for Windows, Mac and Linux platforms. Once installed, th
 run 'offline-first' and is therefore an another method of distributing offline-first web
 apps.
 
-![screenshot](https://raw.githubusercontent.com/glynnbird/couchdbimporter/master/img/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/ibm-cds-labs/couchdbimporter/master/img/screenshot.png)
 
 It uses the [couchimport](https://www.npmjs.com/package/couchimport) library to perform the
 transformation and import of data into CouchDB. Unlike the raw `couchimport` library, this
